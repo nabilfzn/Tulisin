@@ -29,3 +29,56 @@
     <pre><code>php artisan serve</code></pre>
 </ol>
 
+
+## 3. Kolaborasi Tim Setelah Clone
+
+Jika kamu adalah rekan tim yang ikut mengembangkan project ini:
+
+### 🔄 a. Tarik perubahan terbaru dari GitHub sebelum mulai kerja:
+```bash
+git pull origin main
+```
+
+### 🛠️ b. Setelah melakukan perubahan:
+
+1. Tambahkan semua file yang diubah:
+   ```bash
+   git add .
+   ```
+
+2. Commit dengan pesan yang jelas:
+   ```bash
+   git commit -m "Deskripsi singkat perubahan"
+   ```
+
+3. Push perubahan ke GitHub:
+   ```bash
+   git push origin main
+   ```
+
+### ⚠️ Tips:
+- Selalu `git pull` sebelum `git push` untuk menghindari konflik.
+- Komit perubahanmu sesering mungkin agar tim mudah melacak.
+- Jangan pernah upload file `.env` atau file sensitif lainnya.
+
+---
+
+## ✅ Contoh Workflow Kolaborasi
+
+```bash
+git pull origin main
+// edit file...
+git add .
+git commit -m "menambahkan halaman about"
+git push origin main
+```
+
+---
+
+## 📄 Catatan Penting
+
+- Jika kamu menambahkan package baru, jalankan juga `composer install` setelah pull.
+- Jika kamu mengubah file `.env.example`, beri tahu tim agar mereka update juga.
+- Gunakan branch terpisah jika perubahanmu cukup besar (opsional, untuk tim besar).
+
+---
