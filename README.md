@@ -25,6 +25,7 @@
     <li>Jalankan migrasi database:</li>
     <pre><code>php artisan migrate</code></pre>
     <li>Jalankan aplikasi Laravel:</li>
+    <pre><code>npm run dev</code></pre>
     <pre><code>php artisan serve</code></pre>
 </ol>
 
