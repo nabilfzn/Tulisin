@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -40,7 +41,7 @@ class PostController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255', 
             'content' => 'required|string', 
-
+            'image' => 'nullable|image|file|max:2048',
         ]);
 
         $loggedInUser = Auth::user();
@@ -48,9 +49,13 @@ class PostController extends Controller
         $postData = $request->only('judul', 'content');
         $postData['user_id'] = $loggedInUser->id;
 
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('post-images', 'public');
+            $postData['image'] = $path;
+        }
+
         Post::create($postData); 
 
-      
         return redirect()->route('profile')->with('success', 'Artikel berhasil ditambahkan.');
     }
 
@@ -67,12 +72,23 @@ class PostController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'content' => 'required|string',
+            'image' => 'nullable|image|file|max:2048'
         ]);
 
-        $post->update($request->only('judul', 'content'));
+        $updateData = $request->only('judul', 'content');
+
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $path = $request->file('image')->store('post-images', 'public');
+            $updateData['image'] = $path;
+        }
+
+        $post->update($updateData);
 
         return redirect()->route('profile')->with('success', 'Artikel berhasil diupdate.');
- 
     }
 
     public function destroy($id)
@@ -81,6 +97,11 @@ class PostController extends Controller
 
         if (Auth::id() !== $post->user_id) {
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus artikel ini.');
+        }
+
+        // Hapus gambar jika ada
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
         }
 
         $post->delete(); 
