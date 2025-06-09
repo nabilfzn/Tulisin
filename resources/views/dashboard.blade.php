@@ -1,4 +1,3 @@
-
 @push('head')
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -8,6 +7,18 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+    }
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 </style>
 @endpush
@@ -68,9 +79,52 @@
                 <p class="text-xl text-gray-600">Artikel terpopuler dan terbaru minggu ini</p>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="featured-articles">
-                <!-- Articles will be loaded here -->
-            </div>
+            @if($posts->count() > 0)
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach ($posts->take(6) as $post)
+                        <article class="group relative overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-hover">
+                            @if ($post->image)
+                                <div class="relative h-48 overflow-hidden">
+                                    <img src="{{ asset('storage/' . $post->image) }}" 
+                                         alt="{{ $post->judul }}" 
+                                         class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                </div>
+                            @else
+                                <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                            @endif
+                            
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-3 text-gray-900 hover:text-blue-600 transition-colors cursor-pointer line-clamp-2">{{ $post->judul }}</h3>
+                                <p class="text-gray-600 mb-4 line-clamp-3">{{ Str::limit($post->content, 120) }}</p>
+                                <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span>{{ $post->user->name }}</span>
+                                        <span>{{ $post->created_at->diffForHumans() }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <a href="/posts/{{ $post->id }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                                        Baca Selengkapnya
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-12">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.832 18.477 19.246 18 17.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    <h3 class="mt-4 text-lg font-medium text-gray-900">Belum ada artikel</h3>
+                    <p class="mt-2 text-gray-500">Jadilah yang pertama untuk menerbitkan artikel!</p>
+                </div>
+            @endif
             
             <div class="text-center mt-12">
                 <button onclick="window.location.href='/posts'" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
@@ -137,99 +191,6 @@
     </footer>
 
     <script>
-        // Sample data - replace with actual database calls
-        const sampleArticles = [
-            {
-                id: 1,
-                title: '10 Tren Teknologi yang Akan Mengubah Dunia di 2025',
-                excerpt: 'Jelajahi teknologi revolusioner yang akan membentuk masa depan kita dalam beberapa tahun ke depan.',
-                author: 'Ahmad Rizki',
-                date: '2025-05-28',
-                category: 'Teknologi',
-                readTime: '8 menit',
-                image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop',
-                likes: 234,
-                views: 1520
-            },
-            {
-                id: 2,
-                title: 'Panduan Lengkap Memulai Bisnis Online untuk Pemula',
-                excerpt: 'Langkah demi langkah membangun bisnis online yang sukses dari nol hingga berkembang pesat.',
-                author: 'Sari Dewi',
-                date: '2025-05-27',
-                category: 'Bisnis',
-                readTime: '12 menit',
-                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop',
-                likes: 189,
-                views: 892
-            },
-            {
-                id: 3,
-                title: 'Resep Sehat dan Lezat untuk Hidup yang Lebih Baik',
-                excerpt: 'Kumpulan resep makanan sehat yang mudah dibuat dan tentunya lezat untuk keluarga tercinta.',
-                author: 'Chef Indira',
-                date: '2025-05-26',
-                category: 'Kuliner',
-                readTime: '6 menit',
-                image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=250&fit=crop',
-                likes: 156,
-                views: 743
-            },
-            {
-                id: 4,
-                title: 'Tips Produktivitas: Kelola Waktu Seperti Seorang Pro',
-                excerpt: 'Strategi dan teknik manajemen waktu yang telah terbukti meningkatkan produktivitas kerja.',
-                author: 'Bambang Sutrisno',
-                date: '2025-05-25',
-                category: 'Produktivitas',
-                readTime: '10 menit',
-                image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=250&fit=crop',
-                likes: 298,
-                views: 1134
-            },
-            {
-                id: 5,
-                title: 'Destinasi Wisata Tersembunyi di Indonesia',
-                excerpt: 'Temukan keindahan alam Indonesia yang belum banyak diketahui orang dan wajib dikunjungi.',
-                author: 'Maya Sari',
-                date: '2025-05-24',
-                category: 'Travel',
-                readTime: '7 menit',
-                image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73611?w=400&h=250&fit=crop',
-                likes: 412,
-                views: 2156
-            },
-            {
-                id: 6,
-                title: 'Investasi Cerdas untuk Generasi Milenial',
-                excerpt: 'Panduan investasi yang tepat untuk generasi muda dalam membangun kekayaan jangka panjang.',
-                author: 'Andi Pratama',
-                date: '2025-05-23',
-                category: 'Keuangan',
-                readTime: '15 menit',
-                image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&h=250&fit=crop',
-                likes: 267,
-                views: 1089
-            }
-        ];
-
-        // const sampleCategories = [
-        //     { name: 'Teknologi', icon: '💻', count: 1250, color: 'from-blue-500 to-purple-500' },
-        //     { name: 'Bisnis', icon: '💼', count: 892, color: 'from-green-500 to-teal-500' },
-        //     { name: 'Lifestyle', icon: '🌟', count: 734, color: 'from-pink-500 to-rose-500' },
-        //     { name: 'Kuliner', icon: '🍳', count: 567, color: 'from-orange-500 to-red-500' },
-        //     { name: 'Travel', icon: '✈️', count: 423, color: 'from-cyan-500 to-blue-500' },
-        //     { name: 'Kesehatan', icon: '🏥', count: 389, color: 'from-emerald-500 to-green-500' },
-        //     { name: 'Edukasi', icon: '📚', count: 678, color: 'from-indigo-500 to-purple-500' },
-        //     { name: 'Olahraga', icon: '⚽', count: 234, color: 'from-yellow-500 to-orange-500' }
-        // ];
-
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
         // Newsletter subscription
         function subscribeNewsletter() {
             const email = document.getElementById('email-input').value;
@@ -241,129 +202,5 @@
                 // Example: await subscribeToNewsletter(email);
             }
         }
-
-        // Load articles
-        function loadArticles() {
-            const container = document.getElementById('featured-articles');
-            
-            sampleArticles.forEach(article => {
-                const articleCard = `
-                    <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 card-hover">
-                        <div class="relative">
-                            <img src="${article.image}" alt="${article.title}" class="w-full h-48 object-cover">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="font-bold text-xl mb-3 text-gray-900 hover:text-blue-600 transition-colors cursor-pointer">${article.title}</h3>
-                            <p class="text-gray-600 mb-4 line-clamp-3">${article.excerpt}</p>
-                            <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
-                                <div class="flex items-center space-x-4">
-                                    <span>${article.author}</span>
-                                    <span>${article.readTime}</span>
-                                </div>
-                                <span>${new Date(article.date).toLocaleDateString('id-ID')}</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                                    Baca Selengkapnya
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                `;
-                container.innerHTML += articleCard;
-            });
-        }
-
-        // Load categories
-        function loadCategories() {
-            const container = document.getElementById('categories');
-            
-            sampleCategories.forEach(category => {
-                const categoryCard = `
-                    <div class="group cursor-pointer">
-                        <div class="bg-gradient-to-br ${category.color} p-6 rounded-xl text-white text-center hover:shadow-lg transition-all duration-300 transform group-hover:scale-105">
-                            <div class="text-3xl mb-3">${category.icon}</div>
-                            <h3 class="font-bold text-lg mb-2">${category.name}</h3>
-                            <p class="text-sm opacity-90">${category.count} artikel</p>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += categoryCard;
-            });
-        }
-
-        // Database integration functions
-        const DatabaseAPI = {
-            // Fetch articles from database
-            async fetchArticles(limit = 6, category = null, featured = false) {
-                try {
-                    const params = new URLSearchParams({
-                        limit: limit,
-                        ...(category && { category }),
-                        ...(featured && { featured: 'true' })
-                    });
-                    
-                    // Replace with your actual API endpoint
-                    // const response = await fetch(`/api/articles?${params}`);
-                    // const data = await response.json();
-                    
-                    // For now, return sample data
-                    return {
-                        success: true,
-                        data: sampleArticles.slice(0, limit),
-                        total: sampleArticles.length
-                    };
-                } catch (error) {
-                    console.error('Error fetching articles:', error);
-                    return { success: false, error: error.message };
-                }
-            },
-
-            // Fetch categories from database
-            async fetchCategories() {
-                try {
-                    // Replace with your actual API endpoint
-                    // const response = await fetch('/api/categories');
-                    // const data = await response.json();
-                    
-                    // For now, return sample data
-                    return {
-                        success: true,
-                        data: sampleCategories
-                    };
-                } catch (error) {
-                    console.error('Error fetching categories:', error);
-                    return { success: false, error: error.message };
-                }
-            },
-
-            // Subscribe to newsletter
-            async subscribeToNewsletter(email) {
-                try {
-                    // Replace with your actual API endpoint
-                    // const response = await fetch('/api/newsletter/subscribe', {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify({ email })
-                    // });
-                    // const data = await response.json();
-                    
-                    // For now, return success
-                    return {
-                        success: true,
-                        message: 'Successfully subscribed to newsletter'
-                    };
-                } catch (error) {
-                    console.error('Error subscribing to newsletter:', error);
-                    return { success: false, error: error.message };
-                }
-            }
-        };
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadArticles();
-            loadCategories();
-        });
     </script>
 </x-layout>

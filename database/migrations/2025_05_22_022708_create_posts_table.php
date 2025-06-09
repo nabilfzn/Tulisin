@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('judul');
             $table->foreignId('user_id')->constrained();
             $table->text('content');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
