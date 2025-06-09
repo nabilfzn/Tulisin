@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     @vite('resources/css/app.css')
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @stack('head')
+
 
     <title>Home</title>
 </head>
@@ -21,10 +23,10 @@
 <div class="min-h-full">
   <x-navbar></x-navbar>
 
-  <x-header> {{ $title }} </x-header>
+  {{-- <x-header> {{ $title }} </x-header> --}}
 
-  <main>
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+  <main class="">
+    <div class="">
         {{ $slot }}
     </div>
   </main>
