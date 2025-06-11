@@ -258,7 +258,7 @@
     <div class="form-container">
         <h1>Tambah Post</h1>
         <form action="/posts" method="POST" enctype="multipart/form-data">
-            <!-- @csrf will be handled by your Laravel backend -->
+            @csrf
             
             <div class="form-group">
                 <label for="judul">Judul</label>
@@ -305,7 +305,30 @@
             }
         }
 
-        // Add smooth focus transitions
+        // Form validation and submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const judul = document.getElementById('judul').value.trim();
+            const content = document.getElementById('content').value.trim();
+            
+            if (!judul) {
+                e.preventDefault();
+                alert('Judul harus diisi!');
+                document.getElementById('judul').focus();
+                return false;
+            }
+            
+            if (!content) {
+                e.preventDefault();
+                alert('Konten harus diisi!');
+                document.getElementById('content').focus();
+                return false;
+            }
+            
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.innerHTML = 'Menyimpan...';
+            submitBtn.disabled = true;
+        });
         document.querySelectorAll('input, textarea').forEach(element => {
             element.addEventListener('focus', function() {
                 this.parentElement.style.transform = 'scale(1.02)';
