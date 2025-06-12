@@ -18,6 +18,15 @@ class LoginController extends Controller
         }
     }
 
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard'); // Arahkan admin ke halaman admin
+        }
+
+        return redirect()->intended($this->redirectPath()); // Arahkan user biasa ke redirect default (biasanya '/home' atau '/')
+    }
+
     public function actionLogin(Request $request) {
         $data = [
             'email' => $request->input('email'),
