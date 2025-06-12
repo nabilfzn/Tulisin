@@ -33,7 +33,7 @@ class PostController extends Controller
         $loggedInUser = Auth::user();
         $authorName = $loggedInUser->name;
 
-        return view('create', compact('authorName'));
+        return view('artikel.create', compact('authorName'));
     }
 
     public function store(Request $request)
@@ -62,7 +62,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('edit', compact('post'));
+        return view('artikel.edit', compact('post'));
     }
 
     public function update(Request $request, $id)

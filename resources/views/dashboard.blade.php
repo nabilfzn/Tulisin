@@ -26,6 +26,7 @@
 <x-layout>
 
   <x-slot:title></x-slot:title>
+  
     <!-- Hero Section -->
     <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white py-20">
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
