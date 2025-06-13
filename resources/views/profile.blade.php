@@ -52,17 +52,33 @@
 
         <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
             
-            <div class="flex flex-col sm:flex-row items-center sm:items-start">
-                <img src="https://placehold.co/120x120/E2E8F0/A0AEC0?text=Profil" alt="Foto Profil Besar" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-indigo-200 shadow-md mb-4 sm:mb-0 sm:mr-6">
-                <div class="text-center sm:text-left flex-grow">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">{{ auth()->user()->name }}</h2>
-                    <p class="text-gray-600 text-lg">{{ auth()->user()->email }}</p>
-                    <button class="text-sm text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full inline-block mt-2" onclick="window.location.href='/save'">
-                        Artikel Tersimpan
-                    </button>
-                </div>
-            </div>
+        <div class="flex flex-col sm:flex-row items-center sm:items-start">
+            @php
+                // Mendapatkan path gambar profil dari database untuk user yang sedang login
+                // Gunakan Auth::user() secara konsisten untuk user yang sedang login
+                $userProfile = Auth::user(); // Ambil objek user yang sedang login
+
+                $profileImagePath = $userProfile->image ?? null; // Ambil path gambar, jika tidak ada, default ke null
+
+                // Tentukan URL gambar profil
+                if ($profileImagePath) {
+                    $imageUrl = asset('storage/' . $profileImagePath);
+                } else {
+                    // Gambar placeholder jika tidak ada gambar di database
+                    $imageUrl = 'https://placehold.co/120x120/E2E8F0/A0AEC0?text=Profil';
+                }
+            @endphp
+            <img src="{{ $imageUrl }}" alt="Foto Profil" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-indigo-200 shadow-md mb-4 sm:mb-0 sm:mr-6">
             
+            <div class="text-center sm:text-left flex-grow">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">{{ $userProfile->name }}</h2> {{-- Gunakan $userProfile --}}
+                <p class="text-gray-600 text-lg">{{ $userProfile->email }}</p> {{-- Gunakan $userProfile --}}
+                <button class="text-sm text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full inline-block mt-2" onclick="window.location.href='/save'">
+                    Artikel Tersimpan
+                </button>
+            </div>
+        </div>
+        
         </div>
 
         <div class="bg-white rounded-lg shadow-lg">
@@ -79,7 +95,7 @@
 
             <div class="p-6">
                 <div id="informasiPribadiContent" class="tab-content">
-                    <form action="{{ route('profile.update') }}" method="POST" class="space-y-6">
+                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                         @csrf {{-- Tambahkan CSRF token untuk keamanan --}}
                         @method('patch') {{-- Tambahkan method spoofing untuk PATCH request --}}
 
@@ -95,6 +111,14 @@
                             {{-- Gunakan old() untuk mempertahankan input jika validasi gagal --}}
                             <input type="email" name="email" id="email" value="{{ old('email', auth()->user()->email) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 sm:text-sm p-2" required>
                             @error('email')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="image" class="block text-sm font-medium text-gray-700">image</label>
+                            {{-- Gunakan old() untuk mempertahankan input jika validasi gagal --}}
+                            <input type="file" name="image" id="image" value="{{ old('image', auth()->user()->image) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 sm:text-sm p-2" required>
+                            @error('image')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
