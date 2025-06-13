@@ -1,11 +1,12 @@
 <?php
 
 use App\Models\Post;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SaveController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserController as FrontUserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -63,5 +64,11 @@ Route::get('/save', [SaveController::class, 'saving'])->name('saving')->middlewa
 
 
 // ADMIN
-Route::get('/admin', [DashboardController::class, 'index'])->middleware('admin');
+Route::get('/admin', function () {
+    // Kamu bisa menggunakan view sederhana seperti ini:
+    return view('admin.admin');
+    // Atau jika kamu punya DashboardController untuk ini:
+    // return (new DashboardController())->index();
+})->name('admin.dashboard'); 
 
+Route::resource('admin/users', UserController::class)->names('admin.users');
