@@ -2,9 +2,10 @@
 
 use App\Models\Post;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostController as FrontPostController;
 use App\Http\Controllers\SaveController;
 use App\Http\Controllers\UserController as FrontUserController;
 use App\Http\Middleware\AdminMiddleware;
@@ -72,3 +73,4 @@ Route::get('/admin', function () {
 })->name('admin.dashboard'); 
 
 Route::resource('admin/users', UserController::class)->names('admin.users');
+Route::resource('admin/posts', PostController::class)->names('admin.posts');

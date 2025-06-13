@@ -7,6 +7,12 @@
     <style>
         body { font-family: 'Inter', sans-serif; padding: 20px; background-color: #f3f4f6; text-align: center; }
         h1 { color: #333; margin-bottom: 30px; }
+        .button-group-admin {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Jarak antar tombol */
+            margin-top: 30px;
+        }
         .button-link {
             display: inline-block;
             padding: 12px 25px;
@@ -18,8 +24,12 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        .button-link.users { background-color: #28a745; } /* Warna hijau untuk Users */
+        .button-link.users:hover { background-color: #218838; }
+        .button-link.posts { background-color: #ffc107; color: #333; } /* Warna kuning untuk Posts */
+        .button-link.posts:hover { background-color: #e0a800; }
+
         .button-link:hover {
-            background-color: #0056b3;
             transform: translateY(-2px);
         }
     </style>
@@ -29,10 +39,13 @@
     <h1>Selamat Datang di Panel Admin!</h1>
     <p>Pilih menu yang ingin kamu kelola:</p>
 
-    {{-- Tombol untuk menuju ke halaman pengelolaan user --}}
-    <a href="{{ route('admin.users.index') }}" class="button-link">Kelola Data User</a>
+    <div class="button-group-admin">
+        {{-- Tombol untuk menuju ke halaman pengelolaan user --}}
+        <a href="{{ route('admin.users.index') }}" class="button-link users">Kelola Data User</a>
 
-    <!-- Kamu bisa tambahkan link ke pengelolaan post di sini nanti -->
+        {{-- BARU: Tombol untuk menuju ke halaman pengelolaan post --}}
+        <a href="{{ route('admin.posts.index') }}" class="button-link posts">Kelola Data Post</a>
+    </div>
 
 </body>
 </html>
