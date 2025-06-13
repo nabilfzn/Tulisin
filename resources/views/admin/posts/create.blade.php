@@ -95,9 +95,9 @@
             @csrf {{-- Token CSRF wajib ada di setiap form POST --}}
 
             <div class="form-group">
-                <label for="title">Judul Post:</label>
-                <input type="text" id="title" name="title" value="{{ old('title') }}" required>
-                @error('title') <div class="error-message">{{ $message }}</div> @enderror
+                <label for="judul">Judul Post:</label>
+                <input type="text" id="judul" name="judul" value="{{ old('judul') }}" required>
+                @error('judul') <div class="error-message">{{ $message }}</div> @enderror
             </div>
 
             <div class="form-group">
