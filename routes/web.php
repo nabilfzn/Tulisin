@@ -5,24 +5,26 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Admin\DashboardController;
 
+
 //LOGIN
-Route::get('/', [LoginController::class, 'login'])->name('login')->middleware('guest');
-Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin')->middleware('guest');
+Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin')->middleware('guest');
 
 //REGISTER
 Route::get('/register', [RegisterController::class, 'register'])->name('register')->middleware('guest');
-Route::post('actionregister', [RegisterController::class, 'actionregister'])->name('actionregister');
+Route::post('/actionregister', [RegisterController::class, 'actionregister'])->name('actionregister');
 
 
 //LOGOUT
-Route::get('logout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
+Route::get('/logout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
 
 //HOME
-Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 //ARTICLE
 Route::get('/posts', [PostController::class, 'index'])->middleware('auth');
@@ -31,6 +33,11 @@ Route::post('/posts', [PostController::class, 'store'])->middleware('auth');
 Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->middleware('auth');
 Route::put('/posts/{id}', [PostController::class, 'update'])->middleware('auth');
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
+
+
+Route::middleware(AdminMiddleware::class)->group( function() {
+
+});
 
 Route::get('/posts/{post}', function (Post $post) {
         return view('artikel.post', ['title' => 'Single Post', 'post' => $post]);
