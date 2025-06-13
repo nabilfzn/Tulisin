@@ -30,12 +30,12 @@ Route::get('/logout', [LoginController::class, 'actionlogout'])->name('actionlog
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 //ARTICLE
-Route::get('/posts', [PostController::class, 'index'])->middleware('auth');
-Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth');
-Route::post('/posts', [PostController::class, 'store'])->middleware('auth');
-Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->middleware('auth');
-Route::put('/posts/{id}', [PostController::class, 'update'])->middleware('auth');
-Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
+Route::get('/posts', [FrontPostController::class, 'index'])->middleware('auth');
+Route::get('/posts/create', [FrontPostController::class, 'create'])->middleware('auth');
+Route::post('/posts', [FrontPostController::class, 'store'])->middleware('auth');
+Route::get('/posts/{id}/edit', [FrontPostController::class, 'edit'])->middleware('auth');
+Route::put('/posts/{id}', [FrontPostController::class, 'update'])->middleware('auth');
+Route::delete('/posts/{id}', [FrontPostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
 
 
 Route::middleware(AdminMiddleware::class)->group( function() {
@@ -57,8 +57,8 @@ Route::get('/contact', function () {
 })->middleware('auth');
 
 //PROFILE
-Route::get('/profile', [PostController::class, 'postId'])->name('profile')->middleware('auth');
-Route::patch('/profile', [UserController::class, 'update'])->name('profile.update')->middleware('auth');
+Route::get('/profile', [FrontPostController::class, 'postId'])->name('profile')->middleware('auth');
+Route::patch('/profile', [FrontUserController::class, 'update'])->name('profile.update')->middleware('auth');
 
 //Artikel Tersimpan
 Route::get('/save', [SaveController::class, 'saving'])->name('saving')->middleware('auth');
