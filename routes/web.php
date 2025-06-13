@@ -4,6 +4,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SaveController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\LoginController;
@@ -54,12 +55,11 @@ Route::get('/contact', function () {
 })->middleware('auth');
 
 //PROFILE
-Route::get('/profile', [PostController::class, 'postId'])
-    ->name('profile')
-    ->middleware('auth');
-
-// Route untuk memproses update profil (form di halaman profile akan POST ke sini)
+Route::get('/profile', [PostController::class, 'postId'])->name('profile')->middleware('auth');
 Route::patch('/profile', [UserController::class, 'update'])->name('profile.update')->middleware('auth');
+
+//Artikel Tersimpan
+Route::get('/save', [SaveController::class, 'saving'])->name('saving')->middleware('auth');
 
 
 // ADMIN

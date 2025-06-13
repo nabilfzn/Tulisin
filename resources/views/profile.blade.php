@@ -57,9 +57,9 @@
                 <div class="text-center sm:text-left flex-grow">
                     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">{{ auth()->user()->name }}</h2>
                     <p class="text-gray-600 text-lg">{{ auth()->user()->email }}</p>
-                    <p class="text-sm text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full inline-block mt-2">
-                        <i class="fas fa-user-shield mr-1"></i>Penulis Terverifikasi
-                    </p>
+                    <button class="text-sm text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full inline-block mt-2" onclick="window.location.href='/save'">
+                        Artikel Tersimpan
+                    </button>
                 </div>
             </div>
             
@@ -73,9 +73,6 @@
                     </button>
                     <button data-tab="artikelSaya" class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none mr-8">
                         <i class="fas fa-newspaper mr-2"></i>Artikel Saya
-                    </button>
-                    <button data-tab="pengaturanAkun" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none">
-                        <i class="fas fa-cogs mr-2"></i>Pengaturan Akun
                     </button>
                 </nav>
             </div>
@@ -153,34 +150,6 @@
                     </div>
                 </div>
     
-
-                <div id="pengaturanAkunContent" class="tab-content">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-6">Pengaturan Akun Anda</h3>
-                    <div class="space-y-8">
-                        <div>
-                            <h4 class="text-lg font-medium text-gray-800 mb-2">Ubah Kata Sandi</h4>
-                            <form class="space-y-4 p-4 border border-gray-200 rounded-md">
-                                <div>
-                                    <label for="currentPassword" class="block text-sm font-medium text-gray-700">Kata Sandi Saat Ini</label>
-                                    <input type="password" name="currentPassword" id="currentPassword" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
-                                </div>
-                                <div>
-                                    <label for="newPassword" class="block text-sm font-medium text-gray-700">Kata Sandi Baru</label>
-                                    <input type="password" name="newPassword" id="newPassword" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
-                                </div>
-                                <div>
-                                    <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi Baru</label>
-                                    <input type="password" name="confirmNewPassword" id="confirmNewPassword" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
-                                </div>
-                                <div class="flex justify-end">
-                                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md">
-                                        <i class="fas fa-key mr-2"></i>Ubah Kata Sandi
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
