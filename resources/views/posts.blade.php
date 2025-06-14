@@ -71,15 +71,16 @@
         }
     </style>
      <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-gray-900 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-9">
                 <div class="col-span-2">
                     <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-xl">A</span>
-                        </div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="{{ asset('storage/logo.png') }}" alt="" class="size-10">
                         <span class="text-2xl font-bold">Tulisin</span>
+                    </div>
                     </div>
                     <p class="text-gray-400 mb-6 max-w-md">
                         Platform terbaik untuk menemukan artikel berkualitas dari berbagai topik menarik. 
@@ -89,15 +90,14 @@
                 <div>
                     <h4 class="font-semibold text-lg mb-4">Navigasi</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Beranda</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Kategori</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Trending</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="/" class="hover:text-white transition-colors">Beranda</a></li>
+                        <li><a href="/posts" class="hover:text-white transition-colors">Trending</a></li>
+                        <li><a href="/" class="hover:text-white transition-colors">Tentang Kami</a></li>
                     </ul>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 ArticleHub. Semua hak cipta dilindungi.</p>
+                <p>&copy; 2025 Tulisin. Semua hak cipta dilindungi.</p>
             </div>
         </div>
     </footer>

@@ -3,154 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Tulisin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Daftar Akun | Tulisin</title>
+    @vite('resources/css/app.css') {{-- Atau link CDN Tailwind --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Custom animation for alert dismissal */
-        @keyframes fade-in-down {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-fade-in-down {
-            animation: fade-in-down 0.3s ease-out forwards;
-        }
+        /* Mencegah "flickering" saat Alpine.js memuat */
+        [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 hover:scale-[1.01] border border-gray-200">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Daftar Akun</h1>
-            <p class="text-gray-600 text-lg">Buat Akun Baru untuk Tulisin</p>
-        </div>
-
-        <hr class="mb-6 border-gray-200">
-
-        @if(session('message'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg relative mb-6 animate-fade-in-down" role="alert">
-            <strong class="font-semibold">Berhasil!</strong>
-            <span class="block sm:inline">{{ session('message') }}</span>
-        </div>
-        @endif
-
-        @if($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-6 animate-fade-in-down" role="alert">
-            <strong class="font-semibold">Opps!</strong>
-            <span class="block sm:inline">Ada kesalahan dalam pengisian formulir.</span>
-            <ul class="mt-2 list-disc list-inside text-sm">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
-        <form action="{{ route('actionregister') }}" method="post">
-            @csrf
-            <div class="mb-5">
-                <label for="name" class="block mb-2 text-sm font-semibold text-gray-700">
-                    <i class="fa fa-user mr-2"></i> Username
-                </label>
-                <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5 transition duration-200 ease-in-out" placeholder="Username" required value="{{ old('name') }}">
-                @error('name')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+<body class="bg-gray-100 font-sans text-gray-900">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="w-full max-w-md space-y-8">
+            <!-- Header -->
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-indigo-600">
+                    Buat Akun Tulisin
+                </h1>
+                <p class="mt-2 text-gray-600">
+                    Satu langkah lagi untuk mulai membaca dan menulis artikel.
+                </p>
             </div>
-            <div class="mb-5">
-                <label for="email" class="block mb-2 text-sm font-semibold text-gray-700">
-                    <i class="fa fa-envelope mr-2"></i> Email
-                </label>
-                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5 transition duration-200 ease-in-out" placeholder="nama@email.com" required value="{{ old('email') }}">
-                @error('email')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-            <div class="mb-6"> <label for="password" class="block mb-2 text-sm font-semibold text-gray-700">
-                    <i class="fa fa-key mr-2"></i> Password
-                </label>
-                <div class="relative"> <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5 pr-10 transition duration-200 ease-in-out" placeholder="••••••••" required>
-                    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
-                        <svg id="eye-open-icon" class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                        </svg>
-                        <svg id="eye-closed-icon" class="h-5 w-5 text-gray-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.879 10.121a3 3 0 11-4.242 4.242M10.121 13.879L5.636 18.364M18.364 5.636L13.879 10.121M16.121 16.121L21 21M3 3l3.5 3.5"></path>
-                        </svg>
-                    </button>
+            
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                
+                <!-- Session Success/Error Alerts dengan Alpine.js -->
+                @if(session('message'))
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-cloak
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                     class="flex items-start gap-4 rounded-lg border border-green-200 bg-green-50 p-4 mb-6" role="alert">
+                    <svg class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <div>
+                        <strong class="font-medium text-green-800">Berhasil!</strong>
+                        <p class="text-sm text-green-700">{{ session('message') }}</p>
+                    </div>
                 </div>
-                @error('password')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                @endif
+                
+                @if ($errors->any())
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 10000)" x-show="show" x-cloak
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                     class="flex items-start gap-4 rounded-lg border border-red-200 bg-red-50 p-4 mb-6" role="alert">
+                     <svg class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                    <div>
+                        <strong class="font-medium text-red-800">Terjadi Kesalahan</strong>
+                        <ul class="mt-1 list-disc list-inside text-sm text-red-700">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endif
+
+
+                <form action="{{ route('actionregister') }}" method="post" class="space-y-6">
+                    @csrf
+                    <!-- Username -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" name="name" id="name" 
+                               class="mt-1 block w-full rounded-lg border-gray-300 p-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border"
+                               placeholder="Contoh: ahmadnabil" required value="{{ old('name') }}">
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" name="email" id="email" 
+                               class="mt-1 block w-full rounded-lg border-gray-300 p-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border"
+                               placeholder="nama@email.com" required value="{{ old('email') }}">
+                    </div>
+
+                    <!-- Password dengan Show/Hide (Alpine.js) -->
+                    <div x-data="{ showPassword: false }">
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <div class="mt-1 relative">
+                            <input :type="showPassword ? 'text' : 'password'" name="password" id="password"
+                                   class="block w-full rounded-lg border-gray-300 p-3 pr-10 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border"
+                                   placeholder="••••••••" required>
+                            <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700" title="Toggle Password Visibility">
+                                <!-- Ikon Mata Tertutup -->
+                                <svg x-show="showPassword" x-cloak class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L6.228 6.228" /></svg>
+                                <!-- Ikon Mata Terbuka -->
+                                <svg x-show="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.432 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tombol Submit -->
+                    <div>
+                        <button type="submit" 
+                                class="flex w-full justify-center rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors">
+                            Daftar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-8 text-center text-sm text-gray-600">
+                    <p>
+                        Sudah punya akun?
+                        <a href="{{ url('/') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                            Masuk di sini
+                        </a>
+                    </p>
+                </div>
             </div>
-            <button type="submit" class="w-full text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-base px-5 py-3.5 text-center transition duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
-                <i class="fa fa-user-plus mr-2"></i> Register
-            </button>
-            <hr class="my-6 border-gray-200">
-            <p class="text-sm text-center text-gray-600">
-                Sudah punya akun? <a href="/" class="font-medium text-blue-600 hover:underline hover:text-blue-800 transition duration-200">Login Disini!</a>
-            </p>
-        </form>
+        </div>
     </div>
-
-    {{-- Script untuk menghilangkan alert setelah beberapa detik dan fungsionalitas show/hide password --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            // Alert dismissal functionality
-            const alertElementSuccess = document.querySelector('.bg-green-100');
-            if (alertElementSuccess) {
-                setTimeout(() => {
-                    alertElementSuccess.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    alertElementSuccess.style.opacity = '0';
-                    alertElementSuccess.style.transform = 'translateY(-10px)';
-                    setTimeout(() => alertElementSuccess.remove(), 500);
-                }, 5000);
-            }
-
-            const alertElementError = document.querySelector('.bg-red-100');
-            if (alertElementError) {
-                setTimeout(() => {
-                    alertElementError.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    alertElementError.style.opacity = '0';
-                    alertElementError.style.transform = 'translateY(-10px)';
-                    setTimeout(() => alertElementError.remove(), 500);
-                }, 5000);
-            }
-
-            // Show/Hide Password functionality
-            const togglePassword = document.querySelector('#togglePassword');
-            const passwordInput = document.querySelector('#password');
-            const eyeOpenIcon = document.querySelector('#eye-open-icon');
-            const eyeClosedIcon = document.querySelector('#eye-closed-icon');
-
-            // Ensure elements exist before adding event listener
-            if (togglePassword && passwordInput && eyeOpenIcon && eyeClosedIcon) {
-                togglePassword.addEventListener('click', function () {
-                    // Toggle the type attribute between 'password' and 'text'
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
-
-                    // Toggle icon visibility
-                    if (type === 'password') {
-                        eyeOpenIcon.classList.remove('hidden');
-                        eyeClosedIcon.classList.add('hidden');
-                    } else {
-                        eyeOpenIcon.classList.add('hidden');
-                        eyeClosedIcon.classList.remove('hidden');
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>
