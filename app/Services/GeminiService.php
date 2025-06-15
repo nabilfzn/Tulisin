@@ -7,46 +7,30 @@ use Exception;
 
 class GeminiService
 {
-    protected $apiKey;
-    protected $baseUrl;
-
-    public function __construct()
-    {
-        $this->apiKey = env('GEMINI_API_KEY');
-        $this->baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=';
-    }
-
-    /**
-     * Fungsi utama untuk mengirim prompt ke Gemini dan mendapatkan konten.
-     *
-     * @param string $prompt Perintah yang akan dikirim ke AI.
-     * @return string Jawaban dari AI atau pesan kesalahan.
-     */
     public function generateContent(string $prompt)
     {
         try {
-            $response = Http::timeout(30)->post($this->baseUrl . $this->apiKey, [
-                'contents' => [
-                    [
-                        'parts' => [
-                            ['text' => $prompt]
-                        ]
-                    ]
-                ],
+            $apiKey = env('GEMINI_API_KEY');
+            $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' . $apiKey;
+
+            $response = Http::post($url, [
+                'contents' => [[
+                    'parts' => [['text' => $prompt]]
+                ]],
                 'generationConfig' => [
-                    'temperature' => 1.0,      
-                    'maxOutputTokens' => 8192,
+                    'temperature' => 2.0,
+                    'maxOutputTokens' => 10000,
                 ],
             ]);
 
             if ($response->successful()) {
-                return $response->json('candidates.0.content.parts.0.text') ?? 'Tidak ada jawaban yang dihasilkan.';
+                return $response->json('candidates.0.content.parts.0.text') ?? 'Jawaban kosong.';
             }
 
-            return 'Maaf, terjadi kesalahan saat menghubungi Gemini API. Status: ' . $response->status();
+            return 'Gagal hubungi Gemini. Status: ' . $response->status();
 
-        } catch (Exception $e) {
-            return 'Maaf, terjadi kesalahan tak terduga: ' . $e->getMessage();
+        } catch (\Exception $e) {
+            return 'Kesalahan: ' . $e->getMessage();
         }
     }
 }

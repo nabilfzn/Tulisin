@@ -51,7 +51,7 @@
                     <div id="ai-features" class="space-y-4 rounded-2xl bg-white p-6 shadow-lg border border-gray-200">
                         <!-- Header Sidebar -->
                         <div class="text-center">
-                            <h2 class="text-2xl font-bold text-gray-800">Tanya <span class="text-indigo-600">AI</span></h2>
+                            <h2 class="text-2xl font-bold text-gray-800">Tulisin <span class="text-indigo-600">AI</span></h2>
                             <p class="mt-1 text-sm text-gray-500">Ajukan pertanyaan tentang artikel ini.</p>
                         </div>
                         
@@ -79,27 +79,19 @@
     </div>
 </div>
 
-<!-- Library Marked.js (untuk merender Markdown) -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<!-- Vanilla JavaScript Logic (KHUSUS CHATBOT) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. SELEKSI ELEMEN ---
     const postId = '{{ $post->id }}';
     const csrfToken = '{{ csrf_token() }}';
 
-    // Elemen-elemen yang dibutuhkan untuk chatbot
     const askQuestionBtn = document.getElementById('askQuestionBtn');
     const askBtnText = document.getElementById('askBtnText');
     const questionInput = document.getElementById('questionInput');
     const answerResultDiv = document.getElementById('answerResult');
-    
-    // State untuk mencegah klik berulang saat loading
-    let isLoading = false;
 
-    // Template HTML untuk animasi loading
+    //loading
     const loadingSpinner = `
         <div class="flex items-center justify-center text-sm text-gray-500">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -109,68 +101,51 @@ document.addEventListener('DOMContentLoaded', () => {
             <span>Sedang berpikir...</span>
         </div>`;
     
-    // --- 2. EVENT LISTENER ---
-    // Saat tombol "Tanya" di-klik
+    // eventlistener
     askQuestionBtn.addEventListener('click', handleAskQuestion);
 
-    // Saat menekan tombol 'Enter' di dalam textarea (tanpa Shift)
     questionInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault(); // Mencegah membuat baris baru
+            event.preventDefault();
             handleAskQuestion();
         }
     });
 
-    // --- 3. FUNGSI UTAMA ---
-    async function handleAskQuestion() {
-        if (isLoading) return; // Kalau sedang loading, jangan lakukan apa-apa
-        
+    async function handleAskQuestion() {        
         const question = questionInput.value.trim();
-        if (!question) {
-            alert('Silakan tulis pertanyaan Anda terlebih dahulu.');
-            return;
-        }
-
         setLoadingState(true);
 
         try {
-            // Kirim pertanyaan ke API
-            const response = await fetch(`/api/articles/${postId}/ask`, {
+            const response = await fetch(`/posts/${postId}/ask`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
                 body: JSON.stringify({ question: question })
             });
             const data = await response.json();
 
-            // Jika respons tidak OK (error dari server)
             if (!response.ok) {
                 throw new Error(data.error || 'Gagal mendapatkan jawaban.');
             }
-            
-            // Tampilkan jawaban dan ubah format Markdown menjadi HTML
-            answerResultDiv.innerHTML = `<div class="prose prose-sm max-w-none">${marked.parse(data.answer)}</div>`;
-            questionInput.value = ''; // Kosongkan input setelah berhasil
+
+            //markdown
+            answerResultDiv.innerHTML = `<div class="prose prose-sm max-w-none">${marked.parse(data.jawaban)}</div>`;
             
         } catch (error) {
-            // Tampilkan pesan error jika ada masalah
             answerResultDiv.innerHTML = `<p class="text-sm text-red-600">${error.message}</p>`;
 
         } finally {
-            // Apapun hasilnya (sukses atau gagal), hentikan loading
             setLoadingState(false);
         }
     }
     
-    // --- 4. FUNGSI BANTU UNTUK UI ---
+    // fungsi disable saat sendang loading
     function setLoadingState(loading) {
         isLoading = loading;
         
-        // Nonaktifkan tombol dan input saat loading
         askQuestionBtn.disabled = loading;
         questionInput.disabled = loading;
         askBtnText.textContent = loading ? 'Mencari...' : 'Tanya Sekarang';
         
-        // Tampilkan kotak hasil dengan spinner saat loading
         if (loading) {
             answerResultDiv.classList.remove('hidden');
             answerResultDiv.innerHTML = loadingSpinner;

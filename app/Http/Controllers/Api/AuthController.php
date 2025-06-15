@@ -26,7 +26,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Buat token Sanctum untuk user yang baru terdaftar
+        // Buat token Sanctum
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([

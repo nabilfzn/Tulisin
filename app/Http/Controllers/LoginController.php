@@ -43,9 +43,9 @@ public function actionLogin(Request $request)
     if (Auth::attempt($request->only('email', 'password'))) {
         $request->session()->regenerate();
         if (Auth::user()->role === 'admin') {
-            return redirect()->intended('/admin');
+            return redirect('/admin');
         }
-        return redirect()->intended('/');
+        return redirect('/');
     }
     
     // Jika user ada tapi login gagal, berarti passwordnya yang salah

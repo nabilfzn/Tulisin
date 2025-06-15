@@ -22,9 +22,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/posts/{id}', [PostApiController::class, 'destroy']); // Hapus post (butuh autentikasi)
 });
 
-//ai
-Route::prefix('articles/{post}')->group(function () {
-    Route::get('summary', [AIController::class, 'getSummary']);
-    Route::post('ask', [AIController::class, 'askQuestion']);
-});
 
+//ai
+// Route::prefix('articles/{post}')->group(function () {
+//     Route::post('ask', [AIController::class, 'askQuestion']);
+// });
+
+
+// Route::post('articles/{post}/ask', [AIController::class, 'askQuestion']);

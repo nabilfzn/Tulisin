@@ -43,9 +43,6 @@ Route::middleware(AdminMiddleware::class)->group( function() {
 
 });
 
-// Route::get('/posts/{post}', function (Post $post) {
-//         return view('artikel.post', ['title' => 'Single Post', 'post' => $post]);
-// })->middleware('auth');
 Route::get('/posts/{post}', [FrontPostController::class, 'show']);
 
 //ABOUT
@@ -76,5 +73,10 @@ Route::get('/admin', function () {
 
 Route::resource('admin/users', UserController::class)->names('admin.users');
 Route::resource('admin/posts', PostController::class)->names('admin.posts');
+
+// GEMINI
+// Route::post('/articles/{post}/ask', [AIController::class, 'askQuestion']);
+Route::post('posts/{post}/ask', [AIController::class, 'askQuestion']);
+
 
 
