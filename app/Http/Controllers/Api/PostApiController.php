@@ -19,18 +19,6 @@ class PostApiController extends Controller
         ]);
     }
 
-    public function userPosts()
-    {
-        $user = Auth::user();
-        $posts = Post::with('user')->where('user_id', $user->id)->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Post milik user login',
-            'data' => $posts
-        ]);
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -104,7 +92,9 @@ class PostApiController extends Controller
             ], 404);
         }
 
-        if (Auth::id() !== $post->user_id) {
+        $user = Auth::user();
+
+        if ($user->id !== $post->user_id && $user->role !== 'admin') {
             return response()->json([
                 'success' => false,
                 'message' => 'Tidak punya izin untuk menghapus',

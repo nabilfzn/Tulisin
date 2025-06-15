@@ -1,282 +1,182 @@
 <x-layout>
-<x-slot:title>  </x-slot:title>
+<x-slot:title>{{ $post->judul }} | Tulisin</x-slot:title>
 
-<div class="min-h-screen bg-gray-50 font-sans antialiased">
-    <!-- Article Header -->
-    <div class="bg-white shadow-sm rounded-b-xl">
-        <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-            <nav class="mb-6">
-                <a href="/posts" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200 rounded-md p-1">
-                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                    Kembali ke Semua Artikel
-                </a>
-            </nav>
+<div class="bg-gray-50 font-sans antialiased">
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- Grid: Konten Utama dan Sidebar -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-12">
 
-            <header class="text-center">
-                <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl mb-6 leading-tight">
-                    {{ $post->judul }}
-                </h1>
-
-                <div class="flex items-center justify-center space-x-4 text-gray-600 mb-8">
-                    <div class="flex items-center">
-                        <div class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center mr-3 shadow-md">
-                            <span class="text-sm font-medium text-white">
-                                {{ substr($post->user->name, 0, 1) }}
-                            </span>
-                        </div>
-                        <div class="text-left">
-                            <p class="font-medium text-gray-900">{{ $post->user->name }}</p>
-                            <p class="text-sm text-gray-500">{{ $post->created_at->diffForHumans() }}</p>
+            <!-- Kolom Konten Artikel (Tidak diubah) -->
+            <div class="lg:col-span-2">
+                <!-- Header Artikel -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-8">
+                    <nav class="mb-6">
+                        <a href="/posts" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-indigo-600">
+                            <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            Kembali ke Semua Artikel
+                        </a>
+                    </nav>
+                    <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-6">{{ $post->judul }}</h1>
+                    <div class="flex items-center space-x-4 border-t border-gray-200 pt-6">
+                        @php
+                            $userImageUrl = $post->user->image ? asset('storage/' . $post->user->image) : 'https://ui-avatars.com/api/?name=' . urlencode($post->user->name) . '&background=EBF4FF&color=4299E1';
+                        @endphp
+                        <img class="h-12 w-12 rounded-full object-cover" src="{{ $userImageUrl }}" alt="{{ $post->user->name }}">
+                        <div>
+                            <p class="font-semibold text-gray-800">{{ $post->user->name }}</p>
+                            <p class="text-sm text-gray-500">Diterbitkan pada {{ $post->created_at->translatedFormat('d F Y') }}</p>
                         </div>
                     </div>
                 </div>
-            </header>
-        </div>
-    </div>
 
-    <!-- Article Content -->
-    <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-            @if ($post->image)
-                <div class="relative h-96 overflow-hidden">
-                    <img src="{{ asset('storage/' . $post->image) }}"
-                         alt="{{ $post->judul }}"
-                         class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                </div>
-            @endif
-
-            <div class="p-8 lg:p-12">
-                <div class="prose prose-lg max-w-none">
-                    <div class="text-gray-700 leading-relaxed whitespace-pre-line text-lg">
-                        {!! $post->content !!}
-                    </div>
-                </div>
-
-                <!-- Article Footer -->
-                <div class="mt-12 pt-8 border-t border-gray-200">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                            <span class="text-sm text-gray-500">Diterbitkan pada</span>
-                            <time class="text-sm font-medium text-gray-900">
-                                {{ $post->created_at->format('F j, Y') }}
-                            </time>
+                <!-- Konten Artikel -->
+                <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    @if ($post->image)
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->judul }}" class="w-full h-64 sm:h-96 object-cover">
+                    @endif
+                    <div class="p-6 sm:p-8 lg:p-12">
+                        <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+                            {!! nl2br(e($post->content)) !!}
                         </div>
+                    </div>
+                </article>
+            </div>
 
-                        <div class="flex items-center space-x-4">
-                            <!-- Share buttons (optional) -->
-                            <button class="p-2 text-gray-400 hover:text-blue-600 transition-colors duration-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z" clip-rule="evenodd"/>
-                                </svg>
+            <!-- Kolom Sidebar AI (Sticky di layar besar) -->
+            <aside class="lg:col-span-1 mt-12 lg:mt-0">
+                <div class="lg:sticky lg:top-8 space-y-8">
+
+                    <!-- Fitur Chatbot AI -->
+                    <div id="ai-features" class="space-y-4 rounded-2xl bg-white p-6 shadow-lg border border-gray-200">
+                        <!-- Header Sidebar -->
+                        <div class="text-center">
+                            <h2 class="text-2xl font-bold text-gray-800">Tanya <span class="text-indigo-600">AI</span></h2>
+                            <p class="mt-1 text-sm text-gray-500">Ajukan pertanyaan tentang artikel ini.</p>
+                        </div>
+                        
+                        <!-- Form Tanya Jawab -->
+                        <div class="space-y-3 pt-4 border-t border-gray-200">
+                            <textarea id="questionInput" rows="4" placeholder="Contoh: Apa kesimpulan utama dari artikel ini?"
+                                      class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border disabled:bg-gray-100"></textarea>
+                            
+                            <button id="askQuestionBtn"
+                                    class="inline-flex w-full justify-center items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:bg-indigo-300 disabled:cursor-not-allowed">
+                                <span id="askBtnText">Tanya Sekarang</span>
                             </button>
                         </div>
+                        
+                        <!-- Hasil Jawaban akan Muncul di Sini -->
+                        <div id="answerResult" class="mt-3 hidden rounded-lg bg-gray-50 p-4 border border-gray-200">
+                             <!-- Konten dan loading spinner akan diisi oleh JS -->
+                        </div>
                     </div>
+
                 </div>
-            </div>
-        </article>
-
-        <!-- Gemini AI Features Section -->
-        <div class="mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800">Tanya AI Tentang Artikel Ini</h2>
-
-            <!-- Ringkasan Artikel -->
-            <div class="mb-8">
-                <button
-                    id="getSummaryBtn"
-                    class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-                >
-                    Apa Maksud dari Artikel Ini?
-                </button>
-                <div id="summaryResult" class="mt-4 p-4 bg-blue-50 text-blue-800 rounded-lg border border-blue-200 hidden">
-                    <p class="font-semibold mb-2">Ringkasan:</p>
-                    <div id="summaryText"></div>
-                    <div id="summaryLoading" class="hidden flex items-center text-sm">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Memuat ringkasan...
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tanya Jawab -->
-            <div>
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">Ajukan Pertanyaan Anda</h3>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input
-                        type="text"
-                        id="questionInput"
-                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all duration-200"
-                        placeholder="Contoh: Apa tujuan utama penulis artikel ini?"
-                    >
-                    <button
-                        id="askQuestionBtn"
-                        class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
-                    >
-                        Tanya
-                    </button>
-                </div>
-                <div id="answerResult" class="mt-4 p-4 bg-indigo-50 text-indigo-800 rounded-lg border border-indigo-200 hidden">
-                    <p class="font-semibold mb-2">Jawaban:</p>
-                    <div id="answerText"></div>
-                    <div id="answerLoading" class="hidden flex items-center text-sm">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Mencari jawaban...
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> {{-- Tambahkan ini untuk marked.js --}}
-        <script>
-            // Debugging: Cek apakah script ini berjalan
-            console.log("Script AI Artikel Dimulai.");
-
-            // Mendapatkan ID artikel langsung dari URL
-            const pathSegments = window.location.pathname.split('/');
-            const postId = pathSegments[pathSegments.length - 1];
-            console.log("Nilai postId dari URL:", postId);
-
-            const csrfToken = "{{ csrf_token() }}";
-            console.log("CSRF Token:", csrfToken);
-
-            // Elemen UI untuk ringkasan
-            const getSummaryBtn = document.getElementById('getSummaryBtn');
-            const summaryResultDiv = document.getElementById('summaryResult');
-            const summaryTextDiv = document.getElementById('summaryText');
-            const summaryLoadingDiv = document.getElementById('summaryLoading');
-
-            // Elemen UI untuk tanya jawab
-            const questionInput = document.getElementById('questionInput');
-            const askQuestionBtn = document.getElementById('askQuestionBtn');
-            const answerResultDiv = document.getElementById('answerResult');
-            const answerTextDiv = document.getElementById('answerText');
-            const answerLoadingDiv = document.getElementById('answerLoading');
-
-            // Fungsi untuk menampilkan pesan toast/notifikasi (pengganti alert)
-            function showNotification(message, type = 'info') {
-                const notificationContainer = document.createElement('div');
-                notificationContainer.className = `fixed bottom-4 right-4 p-4 rounded-lg shadow-xl text-white ${
-                    type === 'error' ? 'bg-red-600' :
-                    type === 'success' ? 'bg-green-600' : 'bg-gray-800'
-                } transition-all duration-300 transform translate-y-full opacity-0 z-50`;
-                notificationContainer.innerText = message;
-                document.body.appendChild(notificationContainer);
-
-                // Animate in
-                setTimeout(() => {
-                    notificationContainer.classList.remove('translate-y-full', 'opacity-0');
-                    notificationContainer.classList.add('translate-y-0', 'opacity-100');
-                }, 100);
-
-                // Animate out after 3 seconds
-                setTimeout(() => {
-                    notificationContainer.classList.remove('translate-y-0', 'opacity-100');
-                    notificationContainer.classList.add('translate-y-full', 'opacity-0');
-                    notificationContainer.addEventListener('transitionend', () => notificationContainer.remove());
-                }, 3000);
-            }
-
-            // Event listener untuk tombol "Apa Maksud dari Artikel Ini?"
-            getSummaryBtn.addEventListener('click', async () => {
-                if (isNaN(Number(postId)) || !postId) {
-                    showNotification('ID Artikel tidak valid. Fitur AI tidak dapat digunakan.', 'error');
-                    console.error('Error: postId is invalid for summary request. Value:', postId);
-                    return;
-                }
-
-                summaryResultDiv.classList.remove('hidden');
-                summaryTextDiv.innerHTML = '';
-                summaryLoadingDiv.classList.remove('hidden');
-
-                try {
-                    const response = await fetch(`/api/articles/${postId}/summary`);
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        // KOREKSI: Gunakan marked.parse() untuk merender Markdown menjadi HTML
-                        summaryTextDiv.innerHTML = marked.parse(data.summary);
-                        summaryLoadingDiv.classList.add('hidden');
-                    } else {
-                        summaryTextDiv.innerHTML = 'Gagal mendapatkan ringkasan: ' + (data.error || 'Terjadi kesalahan.');
-                        summaryLoadingDiv.classList.add('hidden');
-                        showNotification('Gagal mendapatkan ringkasan.', 'error');
-                    }
-                } catch (error) {
-                    console.error('Error fetching summary:', error);
-                    summaryTextDiv.innerHTML = 'Terjadi kesalahan jaringan atau server.';
-                    summaryLoadingDiv.classList.add('hidden');
-                    showNotification('Terjadi kesalahan jaringan atau server.', 'error');
-                }
-            });
-
-            // Event listener untuk tombol "Tanya"
-            askQuestionBtn.addEventListener('click', async () => {
-                const question = questionInput.value.trim();
-
-                if (!question) {
-                    showNotification('Silakan masukkan pertanyaan Anda.', 'info');
-                    return;
-                }
-
-                if (isNaN(Number(postId)) || !postId) {
-                    showNotification('ID Artikel tidak valid. Fitur AI tidak dapat digunakan.', 'error');
-                    console.error('Error: postId is invalid for ask question request. Value:', postId);
-                    return;
-                }
-
-                answerResultDiv.classList.remove('hidden');
-                answerTextDiv.innerHTML = '';
-                answerLoadingDiv.classList.remove('hidden');
-
-                try {
-                    const response = await fetch(`/api/articles/${postId}/ask`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        body: JSON.stringify({ question: question })
-                    });
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        // KOREKSI: Gunakan marked.parse() untuk merender Markdown menjadi HTML
-                        answerTextDiv.innerHTML = marked.parse(data.answer);
-                        answerLoadingDiv.classList.add('hidden');
-                        questionInput.value = '';
-                    } else {
-                        answerTextDiv.innerHTML = 'Gagal mendapatkan jawaban: ' + (data.error || 'Terjadi kesalahan.');
-                        answerLoadingDiv.classList.add('hidden');
-                        showNotification('Gagal mendapatkan jawaban.', 'error');
-                    }
-                } catch (error) {
-                    console.error('Error fetching answer:', error);
-                    answerTextDiv.innerHTML = 'Terjadi kesalahan jaringan atau server.';
-                    answerLoadingDiv.classList.add('hidden');
-                    showNotification('Terjadi kesalahan jaringan atau server.', 'error');
-                }
-            });
-        </script>
-
-        <!-- Navigation -->
-        <div class="mt-8 flex justify-center">
-            <a href="/posts"
-               class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                Back to All Articles
-            </a>
+            </aside>
+            
         </div>
     </div>
 </div>
+
+<!-- Library Marked.js (untuk merender Markdown) -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- Vanilla JavaScript Logic (KHUSUS CHATBOT) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 1. SELEKSI ELEMEN ---
+    const postId = '{{ $post->id }}';
+    const csrfToken = '{{ csrf_token() }}';
+
+    // Elemen-elemen yang dibutuhkan untuk chatbot
+    const askQuestionBtn = document.getElementById('askQuestionBtn');
+    const askBtnText = document.getElementById('askBtnText');
+    const questionInput = document.getElementById('questionInput');
+    const answerResultDiv = document.getElementById('answerResult');
+    
+    // State untuk mencegah klik berulang saat loading
+    let isLoading = false;
+
+    // Template HTML untuk animasi loading
+    const loadingSpinner = `
+        <div class="flex items-center justify-center text-sm text-gray-500">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>Sedang berpikir...</span>
+        </div>`;
+    
+    // --- 2. EVENT LISTENER ---
+    // Saat tombol "Tanya" di-klik
+    askQuestionBtn.addEventListener('click', handleAskQuestion);
+
+    // Saat menekan tombol 'Enter' di dalam textarea (tanpa Shift)
+    questionInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault(); // Mencegah membuat baris baru
+            handleAskQuestion();
+        }
+    });
+
+    // --- 3. FUNGSI UTAMA ---
+    async function handleAskQuestion() {
+        if (isLoading) return; // Kalau sedang loading, jangan lakukan apa-apa
+        
+        const question = questionInput.value.trim();
+        if (!question) {
+            alert('Silakan tulis pertanyaan Anda terlebih dahulu.');
+            return;
+        }
+
+        setLoadingState(true);
+
+        try {
+            // Kirim pertanyaan ke API
+            const response = await fetch(`/api/articles/${postId}/ask`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({ question: question })
+            });
+            const data = await response.json();
+
+            // Jika respons tidak OK (error dari server)
+            if (!response.ok) {
+                throw new Error(data.error || 'Gagal mendapatkan jawaban.');
+            }
+            
+            // Tampilkan jawaban dan ubah format Markdown menjadi HTML
+            answerResultDiv.innerHTML = `<div class="prose prose-sm max-w-none">${marked.parse(data.answer)}</div>`;
+            questionInput.value = ''; // Kosongkan input setelah berhasil
+            
+        } catch (error) {
+            // Tampilkan pesan error jika ada masalah
+            answerResultDiv.innerHTML = `<p class="text-sm text-red-600">${error.message}</p>`;
+
+        } finally {
+            // Apapun hasilnya (sukses atau gagal), hentikan loading
+            setLoadingState(false);
+        }
+    }
+    
+    // --- 4. FUNGSI BANTU UNTUK UI ---
+    function setLoadingState(loading) {
+        isLoading = loading;
+        
+        // Nonaktifkan tombol dan input saat loading
+        askQuestionBtn.disabled = loading;
+        questionInput.disabled = loading;
+        askBtnText.textContent = loading ? 'Mencari...' : 'Tanya Sekarang';
+        
+        // Tampilkan kotak hasil dengan spinner saat loading
+        if (loading) {
+            answerResultDiv.classList.remove('hidden');
+            answerResultDiv.innerHTML = loadingSpinner;
+        }
+    }
+});
+</script>
+
 </x-layout>
