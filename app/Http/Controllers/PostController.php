@@ -16,6 +16,14 @@ class PostController extends Controller
         ]);
     }
 
+    public function show(Post $post) // Nama parameter harus 'post' agar cocok dengan {post} di route
+    {
+        // KOREKSI: Ubah 'posts.show' menjadi 'artikel.post'
+        return view('artikel.post', [
+            'post' => $post, // Meneruskan objek $post ke view
+        ]);
+    }
+
     public function postId() 
     {
         $loggedInUser = Auth::user();

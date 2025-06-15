@@ -1,17 +1,18 @@
 <?php
 
 use App\Models\Post;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AIController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PostController as FrontPostController;
 use App\Http\Controllers\SaveController;
-use App\Http\Controllers\UserController as FrontUserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\PostController as FrontPostController;
+use App\Http\Controllers\UserController as FrontUserController;
 
 
 //LOGIN
@@ -42,9 +43,7 @@ Route::middleware(AdminMiddleware::class)->group( function() {
 
 });
 
-Route::get('/posts/{post}', function (Post $post) {
-        return view('artikel.post', ['title' => 'Single Post', 'post' => $post]);
-})->middleware('auth');
+Route::get('/posts/{post}', [FrontPostController::class, 'show']);
 
 //ABOUT
 Route::get('/about', function () {
@@ -74,3 +73,10 @@ Route::get('/admin', function () {
 
 Route::resource('admin/users', UserController::class)->names('admin.users');
 Route::resource('admin/posts', PostController::class)->names('admin.posts');
+
+// GEMINI
+// Route::post('/articles/{post}/ask', [AIController::class, 'askQuestion']);
+Route::post('posts/{post}/ask', [AIController::class, 'askQuestion']);
+
+
+

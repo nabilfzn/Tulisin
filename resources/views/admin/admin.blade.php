@@ -40,11 +40,14 @@
     <p>Pilih menu yang ingin kamu kelola:</p>
 
     <div class="button-group-admin">
-        {{-- Tombol untuk menuju ke halaman pengelolaan user --}}
+        {{-- user --}}
         <a href="{{ route('admin.users.index') }}" class="button-link users">Kelola Data User</a>
 
-        {{-- BARU: Tombol untuk menuju ke halaman pengelolaan post --}}
+        {{-- postingan --}}
         <a href="{{ route('admin.posts.index') }}" class="button-link posts">Kelola Data Post</a>
+
+        {{-- logout --}}
+        <a href="/logout" class="button-link">Logout</a>
     </div>
 
 </body>

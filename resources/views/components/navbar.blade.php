@@ -3,7 +3,7 @@
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
           <div class="shrink-0">
-            <img class="size-8" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+            <img class="size-10" src="{{ asset('storage/logo.png') }}" alt="Your Company">
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
@@ -11,7 +11,6 @@
               <x-nav-link href="/" :active="request()->is('/')">Dashboard</x-nav-link>
               <x-nav-link href="/posts" :active="request()->is('posts')">Articles</x-nav-link>
               <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
-              <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
             </div>
           </div>
         </div>
@@ -25,17 +24,13 @@
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
                   @php
-                      // Mendapatkan path gambar profil dari database untuk user yang sedang login
-                      // Gunakan Auth::user() secara konsisten untuk user yang sedang login
-                      $userProfile = Auth::user(); // Ambil objek user yang sedang login
+                      $userProfile = Auth::user(); 
 
-                      $profileImagePath = $userProfile->image ?? null; // Ambil path gambar, jika tidak ada, default ke null
+                      $profileImagePath = $userProfile->image ?? null;
 
-                      // Tentukan URL gambar profil
                       if ($profileImagePath) {
                           $imageUrl = asset('storage/' . $profileImagePath);
                       } else {
-                          // Gambar placeholder jika tidak ada gambar di database (ukuran kecil yang cocok untuk size-8)
                           $imageUrl = 'https://placehold.co/32x32/E2E8F0/A0AEC0?text=P'; // Ukuran placeholder disesuaikan agar lebih cocok dengan size-8
                       }
                   @endphp
@@ -96,7 +91,6 @@
         <x-nav-link href="/" :active="request()->is('/')">Dashboard</x-nav-link>
         <x-nav-link href="/posts" :active="request()->is('posts')">Articles</x-nav-link>
         <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
-        <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
       </div>
       <div class="border-t border-gray-700 pb-3 pt-4">
         <div class="flex items-center px-5">
