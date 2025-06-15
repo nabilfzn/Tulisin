@@ -50,10 +50,6 @@ Route::get('/about', function () {
     return view('about', ['title' => 'About', 'name' => 'Nabil Fauzan']);
 })->middleware('auth');
 
-//CONTACT
-Route::get('/contact', function () {
-    return view('contact', ['title' => 'Contact']);
-})->middleware('auth');
 
 //PROFILE
 Route::get('/profile', [FrontPostController::class, 'postId'])->name('profile')->middleware('auth');
@@ -65,10 +61,7 @@ Route::get('/save', [SaveController::class, 'saving'])->name('saving')->middlewa
 
 // ADMIN
 Route::get('/admin', function () {
-    // Kamu bisa menggunakan view sederhana seperti ini:
     return view('admin.admin');
-    // Atau jika kamu punya DashboardController untuk ini:
-    // return (new DashboardController())->index();
 })->name('admin.dashboard'); 
 
 Route::resource('admin/users', UserController::class)->names('admin.users');

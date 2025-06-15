@@ -4,12 +4,9 @@
 <div class="bg-gray-50 font-sans antialiased">
     <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         
-        <!-- Grid: Konten Utama dan Sidebar -->
         <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-12">
 
-            <!-- Kolom Konten Artikel (Tidak diubah) -->
             <div class="lg:col-span-2">
-                <!-- Header Artikel -->
                 <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-8">
                     <nav class="mb-6">
                         <a href="/posts" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-indigo-600">
@@ -30,7 +27,6 @@
                     </div>
                 </div>
 
-                <!-- Konten Artikel -->
                 <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
                     @if ($post->image)
                         <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->judul }}" class="w-full h-64 sm:h-96 object-cover">
@@ -43,19 +39,18 @@
                 </article>
             </div>
 
-            <!-- Kolom Sidebar AI (Sticky di layar besar) -->
             <aside class="lg:col-span-1 mt-12 lg:mt-0">
                 <div class="lg:sticky lg:top-8 space-y-8">
 
                     <!-- Fitur Chatbot AI -->
                     <div id="ai-features" class="space-y-4 rounded-2xl bg-white p-6 shadow-lg border border-gray-200">
-                        <!-- Header Sidebar -->
+                        <!-- Sidebar -->
                         <div class="text-center">
                             <h2 class="text-2xl font-bold text-gray-800">Tulisin <span class="text-indigo-600">AI</span></h2>
                             <p class="mt-1 text-sm text-gray-500">Ajukan pertanyaan tentang artikel ini.</p>
                         </div>
                         
-                        <!-- Form Tanya Jawab -->
+                        <!-- chat -->
                         <div class="space-y-3 pt-4 border-t border-gray-200">
                             <textarea id="questionInput" rows="4" placeholder="Contoh: Apa kesimpulan utama dari artikel ini?"
                                       class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border disabled:bg-gray-100"></textarea>
@@ -66,9 +61,7 @@
                             </button>
                         </div>
                         
-                        <!-- Hasil Jawaban akan Muncul di Sini -->
                         <div id="answerResult" class="mt-3 hidden rounded-lg bg-gray-50 p-4 border border-gray-200">
-                             <!-- Konten dan loading spinner akan diisi oleh JS -->
                         </div>
                     </div>
 

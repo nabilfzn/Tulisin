@@ -16,11 +16,11 @@ class PostController extends Controller
         ]);
     }
 
-    public function show(Post $post) // Nama parameter harus 'post' agar cocok dengan {post} di route
+    public function show(Post $post) 
     {
-        // KOREKSI: Ubah 'posts.show' menjadi 'artikel.post'
+    
         return view('artikel.post', [
-            'post' => $post, // Meneruskan objek $post ke view
+            'post' => $post, 
         ]);
     }
 
@@ -86,7 +86,7 @@ class PostController extends Controller
         $updateData = $request->only('judul', 'content');
 
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
+            // hapus gambar lama jika ada
             if ($post->image) {
                 Storage::disk('public')->delete($post->image);
             }
@@ -107,7 +107,7 @@ class PostController extends Controller
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus artikel ini.');
         }
 
-        // Hapus gambar jika ada
+        // hapus gambar jika ada
         if ($post->image) {
             Storage::disk('public')->delete($post->image);
         }

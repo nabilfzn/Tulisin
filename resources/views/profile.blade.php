@@ -5,12 +5,10 @@
     
         @auth
         <main class="container mx-auto max-w-5xl px-4 py-10">
-            <!-- Profile Header Card -->
             <div class="mb-8 overflow-hidden rounded-2xl bg-white shadow-md">
                 <div class="p-8">
                     <div class="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
                         @php
-                            // Gunakan UI Avatars yang dinamis jika tidak ada gambar, ini jauh lebih baik
                             $imageUrl = auth()->user()->image
                                 ? asset('storage/' . auth()->user()->image)
                                 : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=EBF4FF&color=4299E1&size=128';
@@ -29,9 +27,7 @@
                 </div>
             </div>
 
-            <!-- Tabs Section with Alpine.js -->
             <div x-data="{ activeTab: 'artikel' }" class="rounded-2xl bg-white shadow-md">
-                <!-- Tab Buttons -->
                 <div class="border-b border-gray-200">
                     <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
                         <button @click="activeTab = 'informasi'"
@@ -49,9 +45,7 @@
                     </nav>
                 </div>
 
-                <!-- Tab Content Panels -->
                 <div class="p-6">
-                    <!-- Informasi Pribadi Panel -->
                     <div x-show="activeTab === 'informasi'" x-cloak class="space-y-6">
                          <h3 class="text-xl font-semibold text-gray-800">Ubah Informasi Pribadi</h3>
                         <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6 max-w-lg">

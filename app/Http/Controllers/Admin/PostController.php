@@ -5,24 +5,21 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Post; // Import Model Post untuk berinteraksi dengan tabel 'posts'
-use Illuminate\Support\Facades\Storage; // Import Storage facade untuk mengelola file
+use App\Models\Post; 
+use Illuminate\Support\Facades\Storage; 
 
 class PostController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data post dari database (tabel 'posts')
-        // orderBy('created_at', 'desc') untuk mengurutkan dari yang terbaru
+
         $posts = Post::orderBy('created_at', 'desc')->get();
 
-        // Mengirim data post ini ke tampilan (view) 'admin.posts.index'
         return view('admin.posts.index', compact('posts'));
     }
 
     public function create()
     {
-        // Tampilkan tampilan (view) yang berisi form untuk menambah post baru
         return view('admin.posts.create');
     }
 
@@ -56,7 +53,6 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        // Kirim data post yang ingin diedit ke tampilan 'admin.posts.edit'
         return view('admin.posts.edit', compact('post'));
     }
 
