@@ -12,8 +12,8 @@
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #34495e; font-size: 1.05em; }
         .form-group input[type="text"],
-        .form-group input[type="file"], /* Gaya untuk input file */
-        .form-group textarea { /* Tambahkan textarea */
+        .form-group input[type="file"], 
+        .form-group textarea { 
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #dcdcdc;
@@ -24,15 +24,15 @@
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-group input[type="file"] {
-            padding-top: 8px; /* Sesuaikan padding untuk input file */
+            padding-top: 8px;
             padding-bottom: 8px;
         }
         .form-group textarea {
-            min-height: 150px; /* Tinggi minimum untuk textarea */
-            resize: vertical; /* Izinkan resize vertikal */
+            min-height: 150px; 
+            resize: vertical;
         }
         .form-group input[type="text"]:focus,
-        .form-group input[type="file"]:focus, /* Gaya fokus untuk input file */
+        .form-group input[type="file"]:focus, 
         .form-group textarea:focus {
             border-color: #3498db;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
@@ -42,7 +42,7 @@
             display: block;
             width: 100%;
             padding: 14px;
-            background-color: #2ecc71; /* Warna hijau cerah untuk tambah */
+            background-color: #2ecc71; 
             color: white;
             border: none;
             border-radius: 8px;
@@ -79,7 +79,7 @@
     <div class="container">
         <h1>Tambah Post Baru</h1>
 
-        {{-- Menampilkan error validasi (jika ada) --}}
+        
         @if ($errors->any())
             <div class="validation-errors">
                 <ul>
@@ -90,9 +90,8 @@
             </div>
         @endif
 
-        {{-- Perhatikan: Menambahkan enctype="multipart/form-data" pada form --}}
         <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf {{-- Token CSRF wajib ada di setiap form POST --}}
+            @csrf 
 
             <div class="form-group">
                 <label for="judul">Judul Post:</label>
@@ -102,7 +101,7 @@
 
             <div class="form-group">
                 <label for="image">Gambar Post (Opsional):</label>
-                <input type="file" id="image" name="image" accept="image/*"> {{-- Input untuk upload gambar --}}
+                <input type="file" id="image" name="image" accept="image/*"> 
                 @error('image') <div class="error-message">{{ $message }}</div> @enderror
             </div>
 

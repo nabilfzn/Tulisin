@@ -1,13 +1,10 @@
 <x-layout>
     <x-slot:title>Tambah Artikel Baru</x-slot:title>
     
-    <!-- Bagian utama halaman dengan latar belakang abu-abu muda -->
     <div class="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         
-        <!-- Kontainer Form -->
         <div class="max-w-2xl w-full space-y-8 bg-white p-8 sm:p-10 rounded-2xl shadow-lg">
             
-            <!-- Header Form -->
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">
                     Tambah Artikel Baru
@@ -17,17 +14,16 @@
                 </p>
             </div>
             
-            <!-- Form -->
+
             <form action="/posts" method="POST" enctype="multipart/form-data" class="mt-8 space-y-6">
                 @csrf
 
-                <!-- Field Judul -->
+                <!--  Judul -->
                 <div>
                     <label for="judul" class="block text-sm font-medium text-gray-700">
                         Judul
                     </label>
                     <div class="mt-1">
-                        {{-- Helper `old()` akan mengisi kembali field ini jika validasi gagal --}}
                         <input type="text" id="judul" name="judul" required 
                                value="{{ old('judul') }}"
                                placeholder="Contoh: 10 Tren Teknologi Terbaru"
@@ -38,7 +34,7 @@
                     @enderror
                 </div>
                 
-                <!-- Field Konten -->
+                <!--  Konten -->
                 <div>
                     <label for="content" class="block text-sm font-medium text-gray-700">
                         Konten
@@ -54,7 +50,7 @@
                     @enderror
                 </div>
 
-                <!-- Input File Gambar -->
+                <!-- Input File Gambar -->[]
                 <div>
                     <label for="image" class="block text-sm font-medium text-gray-700">Gambar Artikel</label>
                     <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
@@ -79,7 +75,6 @@
                     @enderror
                 </div>
 
-                <!-- Tombol Submit -->
                 <div>
                     <button type="submit" 
                             class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">

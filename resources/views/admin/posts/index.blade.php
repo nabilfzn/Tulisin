@@ -41,16 +41,16 @@
         .table-posts tr:nth-child(even) { background-color: #f9fafb; }
         .table-posts tr:hover { background-color: #e6f0fa; }
         .text-center { text-align: center; }
-        .actions-cell { white-space: nowrap; } /* Mencegah tombol CRUD terpecah baris */
-        .button-group { margin-bottom: 20px; text-align: right; } /* Grouping buttons */
-        .post-image { /* Gaya untuk gambar di tabel */
-            width: 80px; /* Ukuran gambar kecil di tabel */
+        .actions-cell { white-space: nowrap; }
+        .button-group { margin-bottom: 20px; text-align: right; }
+        .post-image {
+            width: 80px;
             height: 80px;
-            object-fit: cover; /* Pastikan gambar mengisi kotak tanpa terdistorsi */
+            object-fit: cover; 
             border-radius: 4px;
             border: 1px solid #ddd;
         }
-        .no-image-placeholder { /* Gaya untuk placeholder jika tidak ada gambar */
+        .no-image-placeholder { 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -69,7 +69,7 @@
     <div class="container">
         <h1>Daftar Post</h1>
 
-        {{-- Menampilkan pesan sukses dari session (jika ada) --}}
+
         @if (session('success'))
             <div class="alert">
                 {{ session('success') }}
@@ -77,9 +77,7 @@
         @endif
 
         <div class="button-group">
-            {{-- Tombol untuk menambah post baru --}}
             <a href="{{ route('admin.posts.create') }}" class="btn btn-success">Tambah Post Baru</a>
-            {{-- Tombol kembali ke dashboard admin --}}
             <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Kembali ke Dashboard</a>
         </div>
 
@@ -90,11 +88,11 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Gambar</th> {{-- Kolom baru untuk gambar --}}
-                        <th>Judul</th> {{-- Kolom judul --}}
+                        <th>Gambar</th> 
+                        <th>Judul</th> 
                         <th>Konten</th>
                         <th>Tanggal Dibuat</th>
-                        <th class="text-center">Aksi</th> {{-- Kolom untuk tombol aksi --}}
+                        <th class="text-center">Aksi</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -102,23 +100,21 @@
                         <tr>
                             <td>{{ $post->id }}</td>
                             <td>
-                                @if($post->image) {{-- Menggunakan $post->image sesuai model --}}
+                                @if($post->image)
                                     <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="post-image">
                                 @else
                                     <div class="no-image-placeholder">Tidak Ada Gambar</div>
                                 @endif
                             </td>
-                            <td>{{ $post->judul }}</td> {{-- KOREKSI: Menggunakan $post->judul --}}
-                            <td>{{ Str::limit($post->content, 100) }}</td> {{-- Membatasi panjang konten --}}
+                            <td>{{ $post->judul }}</td> 
+                            <td>{{ Str::limit($post->content, 100) }}</td> 
                             <td>{{ $post->created_at->format('d M Y H:i') }}</td>
                             <td class="actions-cell text-center">
-                                {{-- Tombol Edit --}}
                                 <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
 
-                                {{-- Tombol Delete (menggunakan form karena DELETE request) --}}
                                 <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" style="display:inline-block;">
-                                    @csrf {{-- Penting untuk keamanan Laravel --}}
-                                    @method('DELETE') {{-- Memberitahu Laravel ini adalah request DELETE --}}
+                                    @csrf 
+                                    @method('DELETE') 
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus post ini?');">Hapus</button>
                                 </form>
                             </td>

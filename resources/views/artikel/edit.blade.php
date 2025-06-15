@@ -1,13 +1,10 @@
 <x-layout>
     <x-slot:title>Edit Post: {{ $post->judul }}</x-slot:title>
     
-    <!-- Bagian utama halaman dengan latar belakang abu-abu muda -->
     <div class="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         
-        <!-- Kontainer Form -->
         <div class="max-w-3xl w-full space-y-8 bg-white p-8 sm:p-10 rounded-2xl shadow-lg">
             
-            <!-- Header Form -->
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">
                     Edit Artikel
@@ -22,7 +19,7 @@
                 @csrf
                 @method('PUT')
 
-                <!-- Field Judul -->
+                <!-- Judul -->
                 <div>
                     <label for="judul" class="block text-sm font-medium text-gray-700">
                         Judul
@@ -37,7 +34,7 @@
                     @enderror
                 </div>
                 
-                <!-- Field Konten -->
+                <!-- Konten -->
                 <div>
                     <label for="content" class="block text-sm font-medium text-gray-700">
                         Konten
@@ -51,7 +48,7 @@
                     @enderror
                 </div>
 
-                <!-- Bagian Gambar -->
+                <!-- Gambar -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Preview Gambar Saat Ini -->
                     <div>
@@ -67,7 +64,7 @@
                         </div>
                     </div>
                     
-                    <!-- Input File Gambar Baru -->
+                    <!-- Input Gambar Baru -->
                     <div>
                         <label for="image" class="block text-sm font-medium text-gray-700">Ganti Gambar (Opsional)</label>
                         <div class="mt-2 flex items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg h-48">
@@ -93,7 +90,6 @@
                     </div>
                 </div>
 
-                <!-- Tombol Submit -->
                 <div>
                     <button type="submit" 
                             class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
