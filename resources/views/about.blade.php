@@ -95,7 +95,7 @@
 
                 <!-- Team Member 2 -->
                 <div class="team-card bg-white rounded-xl p-8 flex flex-col items-center text-center">
-                    <img class="h-24 w-24 rounded-full object-cover mb-4" src="https://i.pravatar.cc/150?u=miftah" alt="Foto Miftah Nur Firmansyah">
+                    <img class="h-24 w-24 rounded-full object-cover mb-4" src="{{asset('storage/firman.jpg')}}" alt="Foto Ahmad Nabil Fauzan Abdillah">
                     <h3 class="text-xl font-bold text-gray-900">Miftah Nur Firmansyah</h3>
                     <p class="font-semibold gradient-text mb-3">Developer</p>
                     <p class="text-gray-600">Pelajar Kelas 11 jurusan Sistem Informasi Jaringan & Aplikasi (SIJA) di SMK Telkom Sidoarjo, yang berfokus pada desain antarmuka dan pengalaman pengguna yang intuitif.</p>
