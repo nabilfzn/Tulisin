@@ -40,7 +40,6 @@
                         Konten
                     </label>
                     <div class="mt-1">
-                        {{-- Untuk textarea, `old()` ditempatkan di dalam tag --}}
                         <textarea id="content" name="content" rows="10" required 
                                   placeholder="Tuliskan isi artikel Anda di sini..."
                                   class="block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">{{ old('content') }}</textarea>
@@ -50,7 +49,7 @@
                     @enderror
                 </div>
 
-                <!-- Input File Gambar -->[]
+                <!-- Input File Gambar -->
                 <div>
                     <label for="image" class="block text-sm font-medium text-gray-700">Gambar Artikel</label>
                     <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
